@@ -60,7 +60,7 @@ namespace LironHundreds
             }
             else
             {
-                Tint = Color.Black;
+                Tint = Color.White;
             }
         }
 

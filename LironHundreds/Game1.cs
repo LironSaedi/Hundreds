@@ -39,6 +39,7 @@ namespace LironHundreds
 
             multipleBalls.Add(new Ball(Content.Load<Texture2D>("Alex the Pear(Better Version)"), new Vector2(0), Color.White, new Vector2(3, 3)));
             multipleBalls.Add(new Ball(Content.Load<Texture2D>("adult-apple-costume"), new Vector2(125), Color.White, new Vector2(3, 3), 0.18f));
+            multipleBalls.Add(new Ball(Content.Load<Texture2D>("pineapple with Alex"), new Vector2(300), Color.White, new Vector2(3, 3), 0.75f));
         }
 
         protected override void UnloadContent()
@@ -51,7 +52,7 @@ namespace LironHundreds
 
             for (int i = 0; i < multipleBalls.Count; i++)
             {
-                //multipleBalls[i].Update(gameTime, GraphicsDevice.Viewport);
+                multipleBalls[i].Update(gameTime, GraphicsDevice.Viewport);
             }
             base.Update(gameTime);
         }
