@@ -12,7 +12,7 @@ namespace LironHundreds
     {
         public Vector2 Position;
         protected Color Tint;
-        protected Texture2D Texture;
+        public Texture2D Texture;
         public float Scale = 1;
 
         public Sprite(Vector2 position, Color tint, Texture2D texture)
