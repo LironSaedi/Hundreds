@@ -15,6 +15,8 @@ namespace LironHundreds
         public Texture2D Texture;
         public float Scale = 1;
 
+        public Rectangle Hitbox;
+
         public Sprite(Vector2 position, Color tint, Texture2D texture)
         {
             this.Position = position;
@@ -22,7 +24,7 @@ namespace LironHundreds
             this.Tint = tint;
         }
 
-        public Sprite(Vector2 position, Color tint, Texture2D texture, float scale) 
+        public Sprite(Vector2 position, Color tint, Texture2D texture, float scale)
             : this(position, tint, texture)
         {
             this.Scale = scale;
@@ -31,6 +33,13 @@ namespace LironHundreds
         public virtual void Draw(SpriteBatch batch)
         {
             batch.Draw(Texture, Position, null, Tint, 0, Vector2.Zero, Scale, SpriteEffects.None, 0);
+
+            batch.Draw(Game1.pixel, Hitbox, Color.Red * 0.40f);
+        }
+
+        public virtual void Draw(SpriteBatch batch, Rectangle bounds)
+        {
+            batch.Draw(Texture, bounds, Tint);
         }
     }
 }

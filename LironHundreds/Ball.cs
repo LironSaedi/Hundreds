@@ -14,6 +14,11 @@ namespace LironHundreds
         public int Score;
         public bool IsGrowing; //optional
 
+        //rectangle represents hitbox
+        //rectnagle is a class: x, y, width, height
+
+
+
         public Ball(Texture2D image, Vector2 position, Color color, Vector2 speed)
             : base(position, color, image)
         {
@@ -34,8 +39,9 @@ namespace LironHundreds
         {
             Position += Speed * time.ElapsedGameTime.Milliseconds;
 
-            //HitBox.X = (int)this.position.X;
+            // HitBox.X = (int)this.position.X;
             //HitBox.Y = (int)this.position.Y;
+            Hitbox = new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Scale), (int)(Texture.Height * Scale));
 
             if (Position.X < 0)
             {
@@ -67,6 +73,9 @@ namespace LironHundreds
         public void Draw(SpriteBatch batch, SpriteFont font)
         {
             base.Draw(batch); //draws the ball
+
+
+
             //draw the score here
         }
 
