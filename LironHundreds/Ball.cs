@@ -41,6 +41,10 @@ namespace LironHundreds
 
             // HitBox.X = (int)this.position.X;
             //HitBox.Y = (int)this.position.Y;
+
+           
+
+           
             Hitbox = new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Scale), (int)(Texture.Height * Scale));
 
             if (Position.X < 0)

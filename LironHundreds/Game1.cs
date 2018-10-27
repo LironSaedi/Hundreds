@@ -19,7 +19,7 @@ namespace LironHundreds
         Sprite background;
         Random random = new Random();
         int totalScore = 0;
-
+        Vector2 tempSpeed;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -31,6 +31,7 @@ namespace LironHundreds
         protected override void Initialize()
         {
             base.Initialize();
+            IsMouseVisible = true;
         }
 
         protected override void LoadContent()
@@ -47,8 +48,9 @@ namespace LironHundreds
             //  background = new Sprite(Vector2.Zero), Color.White, )
             multipleBalls.Add(new Ball(Content.Load<Texture2D>("Alex the Pear(Better Version)"), new Vector2(0), Color.White, new Vector2(0.25f, 0.25f)));
             multipleBalls.Add(new Ball(Content.Load<Texture2D>("adult-apple-costume"), new Vector2(125), Color.White, new Vector2(0.25f, 0.25f), 0.18f));
-            multipleBalls.Add(new Ball(Content.Load<Texture2D>("pineapple with Alex"), new Vector2(300), Color.White, new Vector2(0.20f, 0.20f), 0.75f));
+            multipleBalls.Add(new Ball(Content.Load<Texture2D>("pineapple with Alex"), new Vector2(254), Color.White, new Vector2(0.20f, 0.20f), 0.75f));
             multipleBalls.Add(new Ball(Content.Load<Texture2D>("KiwiMan"), new Vector2(458), Color.White, new Vector2(0.25f, 0.25f), 0.75f));
+            multipleBalls.Add(new Ball(Content.Load<Texture2D>("halloween__adult-annoying-orange-costume"), new Vector2(100), Color.White, new Vector2(0.05f, 0.005f), 0.25f));
         }
 
         protected override void UnloadContent()
@@ -62,6 +64,21 @@ namespace LironHundreds
             for (int i = 0; i < multipleBalls.Count; i++)
             {
                 multipleBalls[i].Update(gameTime, GraphicsDevice.Viewport);
+
+                for (int j = i + 1; j < multipleBalls.Count; j++)
+                {
+                    if (multipleBalls[j].Hitbox.Intersects(multipleBalls[i].Hitbox))
+                    {
+
+
+                        tempSpeed = multipleBalls[i].Speed;
+
+                        multipleBalls[i].Speed = multipleBalls[j].Speed;
+                        multipleBalls[j].Speed = tempSpeed;
+
+
+                    }
+                }
             }
             base.Update(gameTime);
         }
