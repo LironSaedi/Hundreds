@@ -97,3 +97,10 @@
 /processorParam:TextureFormat=Color
 /build:pineapple with Alex.png
 
+#begin SpriteFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:SpriteFont.spritefont
+

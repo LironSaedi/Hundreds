@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace LironHundreds
     {
         public Vector2 Speed;
         public int Score;
-        public bool IsGrowing; //optional
+        public bool IsGrowing; //optional        
 
         //rectangle represents hitbox
         //rectnagle is a class: x, y, width, height
@@ -25,6 +26,7 @@ namespace LironHundreds
             this.Speed = speed;
             Score = 0;
             IsGrowing = false;
+            Hitbox = new CircleCollider(Texture.Width * Scale / 2, Position + new Vector2(Texture.Width * Scale / 2, Texture.Height * Scale / 2));
         }
 
         public Ball(Texture2D image, Vector2 position, Color color, Vector2 speed, float scale)
@@ -33,20 +35,33 @@ namespace LironHundreds
             this.Speed = speed;
             Score = 0;
             IsGrowing = false;
+            Hitbox = new CircleCollider(Texture.Width * Scale / 2, Position + new Vector2(Texture.Width * Scale / 2, Texture.Height * Scale / 2));
         }
 
-        public void Update(GameTime time, Viewport port)
+        private void Grow()
         {
+            Score++;
+            Scale *= 1.01f;
+            IsGrowing = true;
+        }
+
+        public void Update(GameTime time, Viewport port, MouseState ms)
+        {
+            IsGrowing = false;
+
             Position += Speed * time.ElapsedGameTime.Milliseconds;
 
             // HitBox.X = (int)this.position.X;
             //HitBox.Y = (int)this.position.Y;
 
-
-
             // = new CircleCollider(center position of object, width of the texture to act as the radius)
             Hitbox = new CircleCollider(Texture.Width * Scale / 2, Position + new Vector2(Texture.Width * Scale / 2, Texture.Height * Scale / 2));
 
+            if (Hitbox.ContainsPoint(ms.X, ms.Y))
+            {
+                Grow();
+            }
+            
             if (Position.X < 0)
             {
                 Speed.X = Math.Abs(Speed.X);
@@ -80,13 +95,6 @@ namespace LironHundreds
             //draw the score here
         }
 
-
-        //Magic Code By Ryan
-        public void DrawHitbox(SpriteBatch batch, Texture2D circle)
-        {
-            base.Draw(batch);
-            batch.Draw(circle, Hitbox.Center - new Vector2(Hitbox.Radius/2), Color.Red * 0.40f);
-        }
 
     }
 }
