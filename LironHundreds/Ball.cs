@@ -42,10 +42,10 @@ namespace LironHundreds
             // HitBox.X = (int)this.position.X;
             //HitBox.Y = (int)this.position.Y;
 
-           
 
-           
-            Hitbox = new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Scale), (int)(Texture.Height * Scale));
+
+            // = new CircleCollider(center position of object, width of the texture to act as the radius)
+            Hitbox = new CircleCollider(Texture.Width * Scale / 2, Position + new Vector2(Texture.Width * Scale / 2, Texture.Height * Scale / 2));
 
             if (Position.X < 0)
             {
@@ -76,11 +76,16 @@ namespace LironHundreds
 
         public void Draw(SpriteBatch batch, SpriteFont font)
         {
-            base.Draw(batch); //draws the ball
-
-
-
+            base.Draw(batch);
             //draw the score here
+        }
+
+
+        //Magic Code By Ryan
+        public void DrawHitbox(SpriteBatch batch, Texture2D circle)
+        {
+            base.Draw(batch);
+            batch.Draw(circle, Hitbox.Center - new Vector2(Hitbox.Radius/2), Color.Red * 0.40f);
         }
 
     }
