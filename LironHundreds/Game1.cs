@@ -9,7 +9,7 @@ namespace LironHundreds
     public class Game1 : Game
     {
         Random gen = new Random();
-        
+
 
         public static Texture2D pixel;
 
@@ -24,10 +24,12 @@ namespace LironHundreds
         Vector2 tempSpeed;
         bool paused = false;
 
+        Rectangle Screen;
+
 
         //create array of images
 
-        Texture2D[] ballImages;
+        Texture2D[] ballImages = new Texture2D[5];
 
         public Game1()
         {
@@ -41,40 +43,41 @@ namespace LironHundreds
         {
             base.Initialize();
             IsMouseVisible = true;
+            
         }
 
         protected override void LoadContent()
         {
-
-            int num = gen.Next(ballImages.Length);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Screen = GraphicsDevice.Viewport.Bounds;
             pixel = new Texture2D(GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
 
             background = new Sprite(new Vector2(0, 0), Color.White, Content.Load<Texture2D>("AlexBackground"));
 
-            for (int i = 0; i < ballImages.Length; i++)
-            {
-                ballImages[i] = multipleBalls[i].Texture;
-            }
-            //load all images into array
-            SpawnBalls();
+            ballImages[0] = Content.Load<Texture2D>("Alex the Pear(Better Version)");
+            ballImages[1] = Content.Load<Texture2D>("adult-apple-costume");
+            ballImages[2] = Content.Load<Texture2D>("pineapple with Alex");
+            ballImages[3] = Content.Load<Texture2D>("KiwiMan");
+            ballImages[4] = Content.Load<Texture2D>("halloween__adult-annoying-orange-costume");
 
-            ballImages = new Texture2D[multipleBalls.Count];
+            SpawnBalls(5);
+
+
         }
 
-        public void SpawnBalls()
+        public void SpawnBalls(int numberOfBalls)
         {
             multipleBalls.Clear();
+           
+            //for loop that runs numberOfBalls many times
+            //add a random ball, with a random image from the ballImages array
+            for (int i = 0; i < numberOfBalls; i++)
+            {
+                int num = gen.Next(ballImages.Length);
+                multipleBalls.Add(new Ball(ballImages[num], new Vector2(gen.Next(0, Screen.Width),gen.Next(0, Screen.Height)), Color.White, new Vector2((float)(gen.NextDouble() * gen.Next(1, 2)))));
+            }
 
-            //each ball can pick a random image
-            //for loop
-            multipleBalls.Add(new Ball(Content.Load<Texture2D>("Alex the Pear(Better Version)"), new Vector2(865), Color.White, new Vector2(0.25f, 0.25f)));
-            multipleBalls.Add(new Ball(Content.Load<Texture2D>("adult-apple-costume"), new Vector2(1500), Color.White, new Vector2(0.25f, 0.25f), 0.05f));
-            multipleBalls.Add(new Ball(Content.Load<Texture2D>("pineapple with Alex"), new Vector2(254), Color.White, new Vector2(0.20f, 0.20f), 0.50f));
-            multipleBalls.Add(new Ball(Content.Load<Texture2D>("KiwiMan"), new Vector2(458), Color.White, new Vector2(0.5f, 0.5f), 0.75f));
-            multipleBalls.Add(new Ball(Content.Load<Texture2D>("halloween__adult-annoying-orange-costume"), new Vector2(100), Color.White, new Vector2(1, 1), 0.0755f));
         }
 
         protected override void UnloadContent()
@@ -118,7 +121,7 @@ namespace LironHundreds
             {
                 if (ks.IsKeyDown(Keys.CapsLock))
                 {
-                    SpawnBalls();
+                    SpawnBalls(5);
                     paused = false;
 
                 }
@@ -140,36 +143,6 @@ namespace LironHundreds
 
             spriteBatch.End();
             base.Draw(gameTime);
-        }
-
-        //Magic Code By Ryan
-        Texture2D createCircleText(int radius)
-        {
-            Texture2D texture = new Texture2D(GraphicsDevice, radius, radius);
-            Color[] colorData = new Color[radius * radius];
-
-            float diam = radius / 2f;
-            float diamsq = diam * diam;
-
-            for (int x = 0; x < radius; x++)
-            {
-                for (int y = 0; y < radius; y++)
-                {
-                    int index = x * radius + y;
-                    Vector2 pos = new Vector2(x - diam, y - diam);
-                    if (pos.LengthSquared() <= diamsq)
-                    {
-                        colorData[index] = Color.White;
-                    }
-                    else
-                    {
-                        colorData[index] = Color.Transparent;
-                    }
-                }
-            }
-
-            texture.SetData(colorData);
-            return texture;
         }
     }
 }
