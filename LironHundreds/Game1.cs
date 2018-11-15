@@ -23,7 +23,7 @@ namespace LironHundreds
         int totalScore = 0;
         Vector2 tempSpeed;
         bool paused = false;
-
+        int Level = 1;
         Rectangle Screen;
 
 
@@ -63,7 +63,7 @@ namespace LironHundreds
 
             SpawnBalls(5);
 
-
+            scoreFont = Content.Load<SpriteFont>("SpriteFont");
         }
 
         public void SpawnBalls(int numberOfBalls)
@@ -91,10 +91,19 @@ namespace LironHundreds
             KeyboardState ks = Keyboard.GetState();
             if (paused == false)
             {
+                totalScore = 0;
                 for (int i = 0; i < multipleBalls.Count; i++)
                 {
                     //update positions
                     multipleBalls[i].Update(gameTime, GraphicsDevice.Viewport, ms);
+                    totalScore += multipleBalls[i].Score;
+                }
+
+                if(totalScore >= 100)
+                {
+                    SpawnBalls(multipleBalls.Count + 1);
+                    Level ++;
+                    //add 1 ball
                 }
 
                 //check collisions
@@ -107,6 +116,7 @@ namespace LironHundreds
                             if (multipleBalls[i].IsGrowing || multipleBalls[j].IsGrowing)
                             {
                                 paused = true;
+                                Level = 1;
                             }
 
                             tempSpeed = multipleBalls[i].Speed;
@@ -135,11 +145,17 @@ namespace LironHundreds
             spriteBatch.Begin();
 
             background.Draw(spriteBatch, GraphicsDevice.Viewport.Bounds);
+
+            
             for (int i = 0; i < multipleBalls.Count; i++)
             {
-                multipleBalls[i].Draw(spriteBatch);
+                multipleBalls[i].Draw(spriteBatch, scoreFont);
+                
+                //add to total score
             }
             //draw all ball objects
+            spriteBatch.DrawString(scoreFont, $" Total Score : {totalScore}", new Vector2(154), Color.Black);
+            spriteBatch.DrawString(scoreFont, $" Level : {Level}", new Vector2(256), Color.Black);
 
             spriteBatch.End();
             base.Draw(gameTime);

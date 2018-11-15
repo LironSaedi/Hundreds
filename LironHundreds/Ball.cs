@@ -92,9 +92,11 @@ namespace LironHundreds
         public void Draw(SpriteBatch batch, SpriteFont font)
         {
             base.Draw(batch);
+
             //draw the score here
+            //add half the image width (scaled) and half the image height (scaled)
+            batch.DrawString(font, $"{Score}", Position + new Vector2(Texture.Width * Scale / 2, Texture.Height * Scale / 2), Color.Blue);
+            
         }
-
-
     }
 }
